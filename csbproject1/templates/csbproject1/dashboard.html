@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'csbproject1/index.css' %}"
+        />
+    </head>
+    <body>
+        <h1>Welcome to the dashboard, {{user.username}}</h1>
+        <h2>Posts</h2>
+        <!-- NOTE: Fourth vulnerability, Cross-site scripting -->
+        <div class="posts">
+            {% for post in posts %}
+            <div class="post">{{post.content|safe}}</div>
+            {% endfor %}
+        </div>
+        <hr />
+        <h2>Create post</h2>
+        <form action="/post" method="POST">
+            {% csrf_token %}
+            <textarea
+                name="content"
+                placeholder="What are you thinking?"
+                cols="30"
+                rows="10"
+            ></textarea>
+            <input type="submit" value="Post" />
+        </form>
+    </body>
+</html>

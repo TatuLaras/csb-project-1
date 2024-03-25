@@ -1,0 +1,54 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Project1</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'csbproject1/index.css' %}"
+        />
+    </head>
+    <body>
+        <div class="error">{{ error }}</div>
+        <div class="info">{{ info }}</div>
+
+        <h2>Log in</h2>
+        <form action="/login" method="POST">
+            {% csrf_token %}
+            <input
+                required
+                type="text"
+                name="username"
+                placeholder="Username"
+            />
+            <input
+                required
+                type="password"
+                name="password"
+                placeholder="Password"
+            />
+            <input type="submit" value="Log in" />
+        </form>
+
+        <h2>Register</h2>
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            <input
+                required
+                type="text"
+                name="username"
+                placeholder="Username"
+            />
+            <input
+                required
+                type="password"
+                name="password"
+                placeholder="Password"
+            />
+            <input type="submit" value="Register" />
+        </form>
+    </body>
+</html>
