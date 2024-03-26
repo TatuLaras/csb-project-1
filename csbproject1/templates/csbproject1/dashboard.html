@@ -12,15 +12,9 @@
         />
     </head>
     <body>
-        <h1>Welcome to the dashboard, {{user.username}}</h1>
-        <h2>Posts</h2>
-        <!-- NOTE: Fourth vulnerability, Cross-site scripting -->
-        <div class="posts">
-            {% for post in posts %}
-            <div class="post">{{post.content|safe}}</div>
-            {% endfor %}
-        </div>
-        <hr />
+        <h1>Welcome {{user.username}}!</h1>
+
+
         <h2>Create post</h2>
         <form action="/post" method="POST">
             {% csrf_token %}
@@ -32,5 +26,35 @@
             ></textarea>
             <input type="submit" value="Post" />
         </form>
+
+        <hr />
+
+        <h2>Posts</h2>
+        <div class="posts">
+            {% for post in posts %}
+            <div class="post">
+                <div class="user">{{post.username}}</div>
+
+<!-- 
+                FLAW: The app outputs user-generated content onto the page as-is, enabling
+                cross-site scripting (XSS) attacks.
+                A7:2017-Cross-Site Scripting (XSS) 
+-->
+                <div class="content">{{post.content|safe}}</div>
+<!-- 
+                The fix is to replace the previous line with the following: 
+
+                <div class="content">{{post.content}}</div> 
+
+                Which will make Django HTML-encode special characters such as < and >,
+                making the app output the malicous HTML tags as just text instead of inserting
+                it as raw HTML. In fact, this is the default behaviour of Django templates.
+-->
+            </div>
+            {% endfor %}
+        </div>
+
+
+
     </body>
 </html>

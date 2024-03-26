@@ -27,6 +27,8 @@ def dashboard(request):
         request.session["error"] = "You need to be logged in for that"
         return response
 
+    user = {"username": row[0], "id": user_id}
+
     # Get posts
     cursor.execute(
         f"SELECT u.username, p.content FROM posts p LEFT JOIN users u ON u.user_id = p.user_id ORDER BY p.post_id DESC"
@@ -36,9 +38,6 @@ def dashboard(request):
     posts = []
     for row in post_rows:
         posts.append({"username": row[0], "content": row[1]})
-
-    print(posts)
-    user = {"username": row[0], "id": user_id}
 
     return render(request, "csbproject1/dashboard.html", {"user": user, "posts": posts})
 
@@ -68,4 +67,4 @@ def post(request):
 
     conn.commit()
 
-    return redirect("/")
+    return redirect("/dashboard")

@@ -17,3 +17,13 @@ form {
 .error {
     font-size: 1.2rem;
 }
+
+.post {
+    padding: 1rem;
+    background-color: #eeeeee;
+    margin-top: 0.5rem;
+}
+
+.post .user {
+    font-weight: 600;
+}
